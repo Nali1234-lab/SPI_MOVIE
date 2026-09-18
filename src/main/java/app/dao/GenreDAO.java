@@ -70,4 +70,13 @@ public class GenreDAO implements IDAO<Genre, Long> {
                     .getResultList();
         }
     }
+    public Optional<Genre> findByTmdbId(Integer tmdbId) {
+        try (EntityManager em = emf.createEntityManager()) {
+            List<Genre> result = em.createQuery(
+                            "SELECT g FROM Genre g WHERE g.tmdbId = :tmdbId", Genre.class)
+                    .setParameter("tmdbId", tmdbId)
+                    .getResultList();
+            return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
+        }
+    }
 }

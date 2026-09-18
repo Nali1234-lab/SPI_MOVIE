@@ -25,4 +25,7 @@ public class Director {
 
     @OneToMany(mappedBy = "director")
     private Set<Movie> movies = new HashSet<>();
+
+    @Column(unique = true)
+    private Integer tmdbId;
 }

@@ -25,4 +25,7 @@ public class Genre {
 
     @ManyToMany(mappedBy = "genres")
     private Set<Movie> movies = new HashSet<>();
+
+    @Column(unique = true)
+    private Integer tmdbId;
 }

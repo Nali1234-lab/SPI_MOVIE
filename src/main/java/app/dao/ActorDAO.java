@@ -1,9 +1,7 @@
 package app.dao;
-
 import app.entities.Actor;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -58,6 +56,15 @@ public class ActorDAO implements IDAO<Actor, Long> {
                 em.remove(actor);
             }
             em.getTransaction().commit();
+        }
+    }
+    public Optional<Actor> findByTmdbId(Integer tmdbId) {
+        try (EntityManager em = emf.createEntityManager()) {
+            List<Actor> result = em.createQuery(
+                            "SELECT a FROM Actor a WHERE a.tmdbId = :tmdbId", Actor.class)
+                    .setParameter("tmdbId", tmdbId)
+                    .getResultList();
+            return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
         }
     }
 }

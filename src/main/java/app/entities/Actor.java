@@ -25,4 +25,7 @@ public class Actor {
 
     @OneToMany(mappedBy = "actor", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MovieCast> movieCasts = new HashSet<>();
+
+    @Column(unique = true)
+    private Integer tmdbId;
 }

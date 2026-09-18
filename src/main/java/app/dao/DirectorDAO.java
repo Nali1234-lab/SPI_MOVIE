@@ -1,6 +1,7 @@
 package app.dao;
 
 import app.entities.Director;
+import app.entities.Genre;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -58,6 +59,15 @@ public class DirectorDAO implements IDAO<Director, Long> {
                 em.remove(director);
             }
             em.getTransaction().commit();
+        }
+    }
+    public Optional<Director> findByTmdbId(Integer tmdbId) {
+        try (EntityManager em = emf.createEntityManager()) {
+            List<Director> result = em.createQuery(
+                            "SELECT d FROM Director d WHERE d.tmdbId = :tmdbId", Director.class)
+                    .setParameter("tmdbId", tmdbId)
+                    .getResultList();
+            return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
         }
     }
 }

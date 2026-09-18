@@ -1,10 +1,9 @@
 package app.dao;
-
+import app.entities.Genre;
 import app.entities.Movie;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -103,6 +102,15 @@ public class MovieDAO implements IDAO<Movie, Long> {
             return em.createQuery("SELECT m FROM Movie m ORDER BY m.popularity DESC", Movie.class)
                     .setMaxResults(10)
                     .getResultList();
+        }
+    }
+    public Optional<Movie> findByTmdbId(Integer tmdbId) {
+        try (EntityManager em = emf.createEntityManager()) {
+            List<Movie> result = em.createQuery(
+                            "SELECT m FROM Movie m WHERE m.tmdbId = :tmdbId", Movie.class)
+                    .setParameter("tmdbId", tmdbId)
+                    .getResultList();
+            return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
         }
     }
 }

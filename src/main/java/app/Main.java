@@ -1,31 +1,76 @@
+/*package app;
+
+import app.api.ApiReader;
+import app.config.HibernateConfig;
+import app.dao.*;
+import app.service.MovieService;
+import app.utils.Utils;
+import jakarta.persistence.EntityManagerFactory;
+
+import java.time.Duration;
+import java.time.Instant;
+
+public class Main {
+    public static void main(String[] args) {
+        EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
+
+        String apiKey = Utils.getPropertyValue("TMDB_API_KEY", "config.properties");
+        ApiReader apiReader = new ApiReader(apiKey);
+
+        MovieDAO movieDAO = new MovieDAO(emf);
+        GenreDAO genreDAO = new GenreDAO(emf);
+        ActorDAO actorDAO = new ActorDAO(emf);
+        DirectorDAO directorDAO = new DirectorDAO(emf);
+
+        MovieService movieService = new MovieService(apiReader, movieDAO, genreDAO, actorDAO, directorDAO);
+
+        Instant start = Instant.now();
+
+        movieService.fetchAndSaveAllDanishMoviesSequential("2021-09-17", "2026-09-17");
+
+        Instant end = Instant.now();
+        Duration duration = Duration.between(start, end);
+        System.out.println("Sekventiel hentning tog: " + duration.toMinutes() + " min " + (duration.toSeconds() % 60) + " sek");
+
+        emf.close();
+    }
+}*/
+
+
 package app;
 
 import app.api.ApiReader;
 import app.config.HibernateConfig;
-import app.dto.MovieResultDTO;
+import app.dao.*;
+import app.service.MovieServiceThreaded;
 import app.utils.Utils;
 import jakarta.persistence.EntityManagerFactory;
 
+import java.time.Duration;
+import java.time.Instant;
+
 public class Main {
     public static void main(String[] args) {
-
-        // 1) Trigger Hibernate til at oprette tabellerne i movie_sp1
         EntityManagerFactory emf = HibernateConfig.getEntityManagerFactory();
-        System.out.println("Hibernate er sat op, EntityManagerFactory oprettet.");
 
-        // 2) Test TMDb-kaldet
         String apiKey = Utils.getPropertyValue("TMDB_API_KEY", "config.properties");
-        ApiReader reader = new ApiReader(apiKey);
+        ApiReader apiReader = new ApiReader(apiKey);
 
-        String url = reader.buildDiscoverUrl(1, "2021-09-17", "2026-09-17");
-        String json = reader.readAPI(url);
-        MovieResultDTO result = reader.convertFromJson(json, MovieResultDTO.class);
+        MovieDAO movieDAO = new MovieDAO(emf);
+        GenreDAO genreDAO = new GenreDAO(emf);
+        ActorDAO actorDAO = new ActorDAO(emf);
+        DirectorDAO directorDAO = new DirectorDAO(emf);
 
-        System.out.println("Total resultater: " + result.totalResults());
-        System.out.println("Total sider: " + result.totalPages());
-        result.results().forEach(movie ->
-                System.out.println(movie.title() + " (" + movie.releaseDate() + ")")
-        );
+        MovieServiceThreaded movieServiceThreaded =
+                new MovieServiceThreaded(apiReader, movieDAO, genreDAO, actorDAO, directorDAO);
+
+        Instant start = Instant.now();
+
+        movieServiceThreaded.fetchAndSaveAllDanishMoviesParallel("2021-09-17", "2026-09-17", 10);
+
+        Instant end = Instant.now();
+        Duration duration = Duration.between(start, end);
+        System.out.println("Parallel hentning (10 tråde) tog: " + duration.toMinutes() + " min " + (duration.toSeconds() % 60) + " sek");
 
         emf.close();
     }
