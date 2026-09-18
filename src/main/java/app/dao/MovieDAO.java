@@ -1,5 +1,4 @@
 package app.dao;
-import app.entities.Genre;
 import app.entities.Movie;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;

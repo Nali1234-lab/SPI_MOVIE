@@ -17,7 +17,7 @@ public class ApiReader {
         this.apiKey = apiKey;
     }
 
-    // Henter rå JSON fra en fuld URL (uden api_key - den tilføjes her)
+    // Henter rå JSON fra en fuld URL
     public String readAPI(String fullUrl) {
         try {
             String separator = fullUrl.contains("?") ? "&" : "?";
@@ -50,7 +50,7 @@ public class ApiReader {
         }
     }
 
-    // Praktiske hjælpemetoder til de tre endpoints, I skal bruge:
+    // Praktiske hjælpemetoder til de tre endpoints:
 
     public String buildDiscoverUrl(int page, String fromDate, String toDate) {
         return BASE_URL + "/discover/movie"
