@@ -19,3 +19,16 @@ tråde og én tråd til at fetch data — derefter arbejder systemet kun mod
 den lokale database.
 
 ## Arkitektur
+TMDb API → DTO → Service (konvertering) → Entity → DAO → PostgreSQL
+
+## Teknologier
+Java 25, Hibernate/JPA,
+PostgreSQL, Jackson, Lombok,
+JUnit 5, Testcontainers, Mockito, SLF4J/Logback
+
+## Funktionalitet
+List alle film / skuespillere / instruktører / genrer
+List film inden for en given genre
+Søg film på titel (case-insensitive, substring)
+Opret, opdater og slet film
+Gennemsnitsrating, top-10 højest/lavest vurderet, top-10 mest populære
