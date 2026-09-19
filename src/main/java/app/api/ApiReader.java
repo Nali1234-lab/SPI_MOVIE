@@ -50,8 +50,7 @@ public class ApiReader {
         }
     }
 
-    // Praktiske hjælpemetoder til de tre endpoints:
-
+    // hjælpemetoder til de tre endpoints:
     public String buildDiscoverUrl(int page, String fromDate, String toDate) {
         return BASE_URL + "/discover/movie"
                 + "?with_origin_country=DK"
