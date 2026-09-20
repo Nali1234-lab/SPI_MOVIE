@@ -7,9 +7,7 @@ gemmer dem i en PostgreSQL-database via JPA/Hibernate, og tilbyder
 forskellige søge- og statistikfunktioner.
 
 ## Formål
-
 Bygge en backend der kan:
-
 1. Hente alle danske film fra de sidste 5 år fra TMDb (~1525 film)
 2. Gemme film, genrer, skuespillere og instruktører i en database
 3. Læse data ud igen på forskellige måder

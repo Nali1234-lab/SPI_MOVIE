@@ -76,11 +76,11 @@ public class MovieDAO implements IDAO<Movie, Long> {
                     .getSingleResult();
         }
     }
-
     // Krav 7: top-10 laveste rating
     public List<Movie> getTop10LowestRated() {
         try (EntityManager em = emf.createEntityManager()) {
-            return em.createQuery("SELECT m FROM Movie m ORDER BY m.voteAverage ASC", Movie.class)
+            return em.createQuery(
+                            "SELECT m FROM Movie m ORDER BY m.voteAverage ASC, m.popularity DESC", Movie.class)
                     .setMaxResults(10)
                     .getResultList();
         }
@@ -89,7 +89,8 @@ public class MovieDAO implements IDAO<Movie, Long> {
     // Krav 7: top-10 højeste rating
     public List<Movie> getTop10HighestRated() {
         try (EntityManager em = emf.createEntityManager()) {
-            return em.createQuery("SELECT m FROM Movie m ORDER BY m.voteAverage DESC", Movie.class)
+            return em.createQuery(
+                            "SELECT m FROM Movie m ORDER BY m.voteAverage DESC, m.popularity DESC", Movie.class)
                     .setMaxResults(10)
                     .getResultList();
         }

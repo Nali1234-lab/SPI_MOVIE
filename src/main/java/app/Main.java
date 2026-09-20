@@ -58,6 +58,8 @@ public class Main {
         firstMovie.setTitle(originalTitle + " (opdateret)");
         movieDAO.update(firstMovie);
         System.out.println("Opdateret titel: " + movieDAO.findById(firstMovie.getId()).get().getTitle());
+        movieDAO.getTop10HighestRated().forEach(m ->
+                System.out.println(" - " + m.getTitle() + " (tmdbId=" + m.getTmdbId() + ")"));
 
         emf.close();
     }
