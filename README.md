@@ -1,5 +1,3 @@
-# repo auto created
-
 # Danish Movies Backend
 
 En Java-backend der henter danske film fra [TMDb API](https://www.themoviedb.org/),
