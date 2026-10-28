@@ -3,7 +3,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .kotlin
-C:\Users\Nalia\datamatikker\SPI_MOVIE\resources\config.properties
+resources/config.properties
 ### IntelliJ IDEA ###
 .idea/modules.xml
 .idea/jarRepositories.xml
